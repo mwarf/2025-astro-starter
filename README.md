@@ -4,11 +4,11 @@ A comprehensive starter template combining modern web technologies for building 
 
 ## ✨ Features
 
-- **Astro** - Modern static site generator
-- **Tailwind CSS** - Utility-first CSS framework
-- **ShadCN UI** - Beautifully designed components
-- **Framer Motion** - Production-ready motion library
-- **React 18** - Interactive UI components
+- **Astro v5.1.2** - Modern static site generator
+- **Tailwind CSS v3.4.17** - Utility-first CSS framework
+- **ShadCN UI** - Beautifully designed components (using Radix UI v1.2.2+)
+- **Framer Motion v11.15.0** - Production-ready motion library
+- **React v18.2.0** - Interactive UI components
 
 ## 🚀 Getting Started
 
