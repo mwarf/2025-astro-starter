@@ -1,8 +1,9 @@
 ---
 import astroLogo from '../assets/astro.svg';
 import background from '../assets/background.svg';
+import { Button } from './ui/button';
+import { Brain } from 'lucide-react';
 ---
-
 <div id="container">
 	<img id="background" src={background.src} alt="" fetchpriority="high" />
 	<main>
@@ -14,7 +15,8 @@ import background from '../assets/background.svg';
 				To get started, open the <code><pre>src/pages</pre></code> directory in your project.
 			</h1>
 			<section id="links">
-				<a class="button" href="https://docs.astro.build">Read our docs</a>
+				<Button client:load>Read our Docs</Button>       <Brain size={32} color="purple" />
+
 				<a href="https://astro.build/chat"
 					>Join our Discord <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36"
 						><path
