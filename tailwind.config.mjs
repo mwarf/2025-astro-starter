@@ -1,9 +1,14 @@
 /** @type {import('tailwindcss').Config} */
+const { fontFamily } = require('tailwindcss/defaultTheme');
+
 export default {
     darkMode: ['class'],
     content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
     	extend: {
+			fontFamily: {
+				sans: ['Inter', ...fontFamily.sans], // New York theme uses Inter font
+			  },
     		borderRadius: {
     			lg: 'var(--radius)',
     			md: 'calc(var(--radius) - 2px)',
