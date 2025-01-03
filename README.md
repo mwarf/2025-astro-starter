@@ -1,48 +1,132 @@
-# Astro Starter Kit: Basics
+# Astro + Tailwind + ShadCN + Framer Motion + React 18 Starter
 
-```sh
-npm create astro@latest -- --template basics
+A comprehensive starter template combining modern web technologies for building fast, interactive websites.
+
+## ✨ Features
+
+- **Astro** - Modern static site generator
+- **Tailwind CSS** - Utility-first CSS framework
+- **ShadCN UI** - Beautifully designed components
+- **Framer Motion** - Production-ready motion library
+- **React 18** - Interactive UI components
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+
+- pnpm (recommended)
+
+### Installation
+1. Clone the repository
+2. Install dependencies:
+```bash
+pnpm install
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+3. Start the development server:
+```bash
+pnpm run dev
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## 🛠️ Technology Integration
 
-## 🧞 Commands
+### Tailwind CSS
+- Pre-configured with ShadCN UI
+- Customizable through `tailwind.config.mjs`
+- Includes dark mode support
 
-All commands are run from the root of the project, from a terminal:
+### ShadCN UI
+- Pre-configured components in `src/components/ui`
+- Easily customizable through `components.json`
+- Includes:
+  - Accordion
+  - Button
+  - Dropdown Menu
+  - Navigation Menu
+  - Sheet
+  - Mode Toggle
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+### Framer Motion
+- Pre-configured for React components
+- Example animations in `src/components/ui`
+- Documentation: [Framer Motion Docs](https://www.framer.com/motion/)
 
-## 👀 Want to learn more?
+### React 18
+- Integrated with Astro's React integration
+- Example components in `src/components`
+- Supports React Server Components
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## 📅 Feature Roadmap
+
+### Phase 1: Core Functionality
+- [x] Astro + Tailwind integration
+- [x] ShadCN UI components setup
+- [x] Framer Motion integration
+- [x] React 18 support
+
+### Phase 2: Enhanced Features
+- [ ] Authentication system
+- [ ] API routes example
+- [ ] Blog template
+- [ ] E-commerce template
+
+### Phase 3: Optimization
+- [ ] Image optimization
+- [ ] Performance benchmarks
+- [ ] Accessibility improvements
+
+## 🎨 Usage Examples
+
+### Using ShadCN Components
+```tsx
+import { Button } from '@/components/ui/button';
+
+export default function MyComponent() {
+  return (
+    <Button variant="outline">
+      Click Me
+    </Button>
+  );
+}
+```
+
+### Adding Framer Motion Animations
+```tsx
+import { motion } from 'framer-motion';
+
+export default function AnimatedComponent() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      Hello World
+    </motion.div>
+  );
+}
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+Please follow our [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## 📚 Documentation Links
+
+- [Astro Documentation](https://docs.astro.build)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [ShadCN UI Documentation](https://ui.shadcn.com/docs)
+- [Framer Motion Documentation](https://www.framer.com/motion/)
+- [React Documentation](https://react.dev)
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
