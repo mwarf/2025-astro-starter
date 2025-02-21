@@ -1,0 +1,117 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+type CaseStudy = CollectionEntry<'case-studies'>;
+const caseStudies = await getCollection('case-studies');
+
+// Group case studies by industry
+const byIndustry = caseStudies.reduce((acc: Record<string, CaseStudy[]>, study: CaseStudy) => {
+  const industry = study.data.industry;
+  if (!acc[industry]) {
+    acc[industry] = [];
+  }
+  acc[industry].push(study);
+  return acc;
+}, {} as Record<string, typeof caseStudies>);
+
+// Group case studies by project type
+const byProjectType = caseStudies.reduce((acc: Record<string, CaseStudy[]>, study: CaseStudy) => {
+  const type = study.data.projectType;
+  if (!acc[type]) {
+    acc[type] = [];
+  }
+  acc[type].push(study);
+  return acc;
+}, {} as Record<string, typeof caseStudies>);
+---
+
+<Layout title="Portfolio | Case Studies">
+  <main class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold mb-8">Our Portfolio</h1>
+
+    <!-- Featured Case Studies -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-6">Featured Work</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {
+          caseStudies
+            .filter((study: CaseStudy) => study.data.featured)
+            .map((study: CaseStudy) => (
+              <a
+                href={`/portfolio/${study.slug}`}
+                class="block bg-card hover:bg-accent transition-colors p-6 rounded-lg shadow-lg"
+              >
+                <h3 class="text-xl font-semibold mb-2">{study.data.title}</h3>
+                <p class="text-sm text-muted-foreground mb-4">
+                  {study.data.client}
+                </p>
+                <p class="text-sm mb-4">{study.data.summary}</p>
+                <div class="flex flex-wrap gap-2">
+                  {study.data.tags?.map((tag: string) => (
+                    <span class="px-2 py-1 bg-primary/10 rounded-full text-xs">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </a>
+            ))
+        }
+      </div>
+    </section>
+
+    <!-- By Industry -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-6">By Industry</h2>
+      <div class="space-y-8">
+        {
+          (Object.entries(byIndustry) as [string, CaseStudy[]][]).map(([industry, studies]) => (
+            <div>
+              <h3 class="text-xl font-medium mb-4">{industry}</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {studies.map((study: CaseStudy) => (
+                  <a
+                    href={`/portfolio/${study.slug}`}
+                    class="block bg-card hover:bg-accent transition-colors p-4 rounded-lg"
+                  >
+                    <h4 class="font-medium mb-2">{study.data.title}</h4>
+                    <p class="text-sm text-muted-foreground">
+                      {study.data.summary}
+                    </p>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- By Project Type -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-6">By Project Type</h2>
+      <div class="space-y-8">
+        {
+          (Object.entries(byProjectType) as [string, CaseStudy[]][]).map(([type, studies]) => (
+            <div>
+              <h3 class="text-xl font-medium mb-4">{type}</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {studies.map((study: CaseStudy) => (
+                  <a
+                    href={`/portfolio/${study.slug}`}
+                    class="block bg-card hover:bg-accent transition-colors p-4 rounded-lg"
+                  >
+                    <h4 class="font-medium mb-2">{study.data.title}</h4>
+                    <p class="text-sm text-muted-foreground">
+                      {study.data.summary}
+                    </p>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</Layout>

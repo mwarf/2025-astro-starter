@@ -1,0 +1,99 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const caseStudies = await getCollection('case-studies');
+  return caseStudies.map((study: CollectionEntry<'case-studies'>) => ({
+    params: { slug: study.slug },
+    props: { study },
+  }));
+}
+
+type Props = {
+  study: CollectionEntry<'case-studies'>;
+};
+
+const { study } = Astro.props;
+const { Content } = await study.render();
+
+// Get related case studies (same industry or project type)
+const allCaseStudies = await getCollection('case-studies');
+const relatedStudies = allCaseStudies
+  .filter(
+    (s: CollectionEntry<'case-studies'>) =>
+      s.slug !== study.slug &&
+      (s.data.industry === study.data.industry ||
+        s.data.projectType === study.data.projectType)
+  )
+  .slice(0, 3); // Limit to 3 related studies
+---
+
+<Layout title={`${study.data.title} | Portfolio Case Study`}>
+  <main class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+      <!-- Header -->
+      <header class="mb-8">
+        <h1 class="text-4xl font-bold mb-4">{study.data.title}</h1>
+        <div class="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
+          <div>
+            <span class="font-medium">Client:</span> {study.data.client}
+          </div>
+          <div>
+            <span class="font-medium">Industry:</span> {study.data.industry}
+          </div>
+          <div>
+            <span class="font-medium">Type:</span> {study.data.projectType}
+          </div>
+          <div>
+            <span class="font-medium">Date:</span>{' '}
+            {study.data.date.toLocaleDateString()}
+          </div>
+        </div>
+        {
+          study.data.tags && (
+            <div class="flex flex-wrap gap-2">
+              {study.data.tags.map((tag: string) => (
+                <span class="px-3 py-1 bg-primary/10 rounded-full text-sm">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )
+        }
+      </header>
+
+      <!-- Content -->
+      <article class="prose dark:prose-invert max-w-none mb-12">
+        <Content />
+      </article>
+
+      <!-- Related Case Studies -->
+      {
+        relatedStudies.length > 0 && (
+          <section class="border-t pt-8">
+            <h2 class="text-2xl font-semibold mb-6">Related Case Studies</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {relatedStudies.map((related: CollectionEntry<'case-studies'>) => (
+                <a
+                  href={`/portfolio/${related.slug}`}
+                  class="block bg-card hover:bg-accent transition-colors p-6 rounded-lg"
+                >
+                  <h3 class="font-medium mb-2">{related.data.title}</h3>
+                  <p class="text-sm text-muted-foreground mb-4">
+                    {related.data.summary}
+                  </p>
+                  <div class="text-sm">
+                    <span class="text-primary">{related.data.industry}</span>
+                    {' • '}
+                    <span>{related.data.projectType}</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+        )
+      }
+    </div>
+  </main>
+</Layout>

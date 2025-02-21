@@ -166,6 +166,18 @@ const Navbar1 = () => {
                     variant: "ghost",
                   }),
                 )}
+                href="/portfolio"
+              >
+                Portfolio
+              </a>
+              <a
+                className={cn(
+                  "text-muted-foreground",
+                  navigationMenuTriggerStyle,
+                  buttonVariants({
+                    variant: "ghost",
+                  }),
+                )}
                 href="#"
               >
                 Insights
@@ -284,6 +296,9 @@ const Navbar1 = () => {
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
+                  <a href="/portfolio" className="font-semibold">
+                    Portfolio
+                  </a>
                   <a href="#" className="font-semibold">
                     Insights
                   </a>
