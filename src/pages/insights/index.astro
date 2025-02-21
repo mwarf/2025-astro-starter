@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import InsightCard from '@/components/InsightCard';
+
+const insights = await getCollection('insights', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+// Sort by publish date, newest first
+const sortedInsights = insights.sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+
+// Get featured insights
+const featuredInsights = sortedInsights.filter(post => post.data.featured);
+---
+
+<Layout title="Insights | Digital Transformation and Technology">
+  <main class="container mx-auto px-4 py-16">
+    {featuredInsights.length > 0 && (
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold mb-8">Featured Insights</h2>
+        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {featuredInsights.map(insight => (
+            <InsightCard insight={insight} client:load />
+          ))}
+        </div>
+      </section>
+    )}
+
+    <section>
+      <h2 class="text-3xl font-bold mb-8">Latest Insights</h2>
+      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {sortedInsights.map(insight => (
+          <InsightCard insight={insight} client:load />
+        ))}
+      </div>
+    </section>
+  </main>
+</Layout>

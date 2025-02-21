@@ -1,0 +1,91 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { formatDate } from '../../lib/utils';
+
+export async function getStaticPaths() {
+  const insights = await getCollection('insights');
+  return insights.map(insight => ({
+    params: { slug: insight.slug },
+    props: { insight },
+  }));
+}
+
+type Props = {
+  insight: CollectionEntry<'insights'>;
+};
+
+const { insight } = Astro.props;
+const { Content } = await insight.render();
+
+// Get author data
+const authors = await getCollection('authors');
+const postAuthors = authors.filter(author => 
+  insight.data.authors.includes(author.slug)
+);
+---
+
+<Layout title={`${insight.data.title} | Insights`}>
+  <article class="container mx-auto px-4 py-16 max-w-4xl">
+    <header class="mb-8">
+      <div class="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+        <time datetime={insight.data.publishDate.toISOString()}>
+          {formatDate(insight.data.publishDate)}
+        </time>
+        <span>·</span>
+        <span>{insight.data.category}</span>
+      </div>
+      
+      <h1 class="text-4xl font-bold tracking-tight mb-4">
+        {insight.data.title}
+      </h1>
+      
+      <p class="text-xl text-muted-foreground mb-6">
+        {insight.data.description}
+      </p>
+
+      {insight.data.featuredImage && (
+        <img
+          src={insight.data.featuredImage}
+          alt={insight.data.title}
+          class="rounded-lg w-full aspect-video object-cover mb-8"
+        />
+      )}
+
+      <div class="flex flex-wrap gap-4 mb-8">
+        {postAuthors.map(author => (
+          <div class="flex items-center gap-2">
+            {author.data.avatar && (
+              <img
+                src={author.data.avatar}
+                alt={author.data.name}
+                class="w-10 h-10 rounded-full"
+              />
+            )}
+            <div>
+              <p class="font-medium">{author.data.name}</p>
+              <p class="text-sm text-muted-foreground">{author.data.role}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </header>
+
+    <div class="prose prose-lg dark:prose-invert max-w-none">
+      <Content />
+    </div>
+
+    {insight.data.tags && insight.data.tags.length > 0 && (
+      <div class="mt-8 pt-8 border-t">
+        <h2 class="text-lg font-semibold mb-4">Tags</h2>
+        <div class="flex flex-wrap gap-2">
+          {insight.data.tags.map(tag => (
+            <span class="px-3 py-1 bg-muted rounded-full text-sm">
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    )}
+  </article>
+</Layout>
