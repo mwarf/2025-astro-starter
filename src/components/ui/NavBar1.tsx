@@ -1,4 +1,4 @@
-import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
+import { Book, Menu, Code, ShoppingCart, Shirt, Utensils, Sparkles, Waves, Eye, Share } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -28,48 +28,54 @@ import {
 
 const subMenuItemsOne = [
   {
-    title: "Blog",
-    description: "The latest industry news, updates, and info",
+    title: "Visual Effects (VFX)",
+    description: "From subtle enhancements to mind-blowing transformations, we make the impossible, visually possible",
+    icon: <Sparkles className="size-5 shrink-0" />,
+  },
+  {
+    title: "Motion Graphics",
+    description: "Animate your story, elevate your brand, and captivate your audience with visuals that move",
+    icon: <Waves className="size-5 shrink-0" />,
+  },
+  {
+    title: "Product Visualization",
+    description: "See your product shine, before it even exists, with stunning 3D visuals that sell",
+    icon: <Eye className="size-5 shrink-0" />,
+  },
+  {
+    title: "Brand Storytelling",
+    description:
+      "Craft a compelling narrative that connects with your audience, creating a lasting impression that turns viewers into fans",
     icon: <Book className="size-5 shrink-0" />,
   },
   {
-    title: "Compnay",
-    description: "Our mission is to innovate and empower the world",
-    icon: <Trees className="size-5 shrink-0" />,
-  },
-  {
-    title: "Careers",
-    description: "Browse job listing and discover our workspace",
-    icon: <Sunset className="size-5 shrink-0" />,
-  },
-  {
-    title: "Support",
+    title: "Social Media Content",
     description:
-      "Get in touch with our support team or visit our community forums",
-    icon: <Zap className="size-5 shrink-0" />,
+      "Stand out from the scroll with eye-catching visuals that stop thumbs and start conversations, optimized for every platform",
+    icon: <Share className="size-5 shrink-0" />,
   },
 ];
 
 const subMenuItemsTwo = [
   {
-    title: "Help Center",
-    description: "Get all the answers you need right here",
-    icon: <Zap className="size-5 shrink-0" />,
+    title: "E-Commerce",
+    description: "Transform online shopping experiences with product visuals that entice, engage, and drive sales.",
+    icon: <ShoppingCart className="size-5 shrink-0" />,
   },
   {
-    title: "Contact Us",
-    description: "We are here to help you with any questions you have",
-    icon: <Sunset className="size-5 shrink-0" />,
+    title: "Tech",
+    description: "Visualize the future of innovation with stunning animations and graphics that showcase groundbreaking technologies.",
+    icon: <Code className="size-5 shrink-0" />,
   },
   {
-    title: "Status",
-    description: "Check the current status of our services and APIs",
-    icon: <Trees className="size-5 shrink-0" />,
+    title: "Fashion",
+    description: "Elevate your brand with captivating visuals that embody style, trend, and aspiration",
+    icon: <Shirt className="size-5 shrink-0" />,
   },
   {
-    title: "Terms of Service",
-    description: "Our terms and conditions for using our services",
-    icon: <Book className="size-5 shrink-0" />,
+    title: "Food & Beverage",
+    description: "Savor the flavor with mouthwatering visuals that make every dish and drink irresistible",
+    icon: <Utensils className="size-5 shrink-0" />,
   },
 ];
 
@@ -80,27 +86,18 @@ const Navbar1 = () => {
         <nav className="hidden justify-between lg:flex">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
-              <img src="https://shadcnblocks.com/images/block/block-1.svg" className="w-8" alt="logo" />
-              <span className="text-xl font-bold">Shadcn Blocks</span>
+            
+              <img src="https://placehold.co/32" className="w-8" alt="logo" />
+              <a href="#"
+              ><span className="text-xl font-bold">BrainMuffin</span></a>
             </div>
             <div className="flex items-center">
-              <a
-                className={cn(
-                  "text-muted-foreground",
-                  navigationMenuTriggerStyle,
-                  buttonVariants({
-                    variant: "ghost",
-                  }),
-                )}
-                href="#"
-              >
-                Home
-              </a>
+              
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem className="text-muted-foreground">
                     <NavigationMenuTrigger>
-                      <span>Products</span>
+                      <span>Services</span>
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <ul className="w-80 p-3">
@@ -130,7 +127,7 @@ const Navbar1 = () => {
                     </NavigationMenuContent>
                   </NavigationMenuItem>
                   <NavigationMenuItem className="text-muted-foreground">
-                    <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+                    <NavigationMenuTrigger>Work</NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <ul className="w-80 p-3">
                         <NavigationMenuLink>
@@ -171,7 +168,7 @@ const Navbar1 = () => {
                 )}
                 href="#"
               >
-                Pricing
+                Insights
               </a>
               <a
                 className={cn(
@@ -183,7 +180,19 @@ const Navbar1 = () => {
                 )}
                 href="#"
               >
-                Blog
+                Our Story
+              </a>
+              <a
+                className={cn(
+                  "text-muted-foreground",
+                  navigationMenuTriggerStyle,
+                  buttonVariants({
+                    variant: "ghost",
+                  }),
+                )}
+                href="#"
+              >
+                Contact
               </a>
             </div>
           </div>
@@ -195,8 +204,8 @@ const Navbar1 = () => {
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <img src="https://shadcnblocks.com/images/block/block-1.svg" className="w-8" alt="logo" />
-              <span className="text-xl font-bold">Shadcn Blocks</span>
+              <img src="https://placehold.co/32" className="w-8" alt="logo" />
+              <span className="text-xl font-bold">BrainMuffin</span>
             </div>
             <Sheet>
               <SheetTrigger asChild>
@@ -209,11 +218,11 @@ const Navbar1 = () => {
                   <SheetTitle>
                     <div className="flex items-center gap-2">
                       <img
-                        src="https://shadcnblocks.com/images/block/block-1.svg"
+                        src="https://placehold.co/32"
                         className="w-8"
                         alt="logo"
                       />
-                      <span className="text-xl font-bold">Shadcn Blocks</span>
+                      <span className="text-xl font-bold">BrainMuffin</span>
                     </div>
                   </SheetTitle>
                 </SheetHeader>
@@ -224,7 +233,7 @@ const Navbar1 = () => {
                   <Accordion type="single" collapsible className="w-full">
                     <AccordionItem value="products" className="border-b-0">
                       <AccordionTrigger className="mb-4 py-0 font-semibold hover:no-underline">
-                        Products
+                        Services
                       </AccordionTrigger>
                       <AccordionContent className="mt-2">
                         {subMenuItemsOne.map((item, idx) => (
@@ -250,7 +259,7 @@ const Navbar1 = () => {
                     </AccordionItem>
                     <AccordionItem value="resources" className="border-b-0">
                       <AccordionTrigger className="py-0 font-semibold hover:no-underline">
-                        Resources
+                        Work
                       </AccordionTrigger>
                       <AccordionContent className="mt-2">
                         {subMenuItemsTwo.map((item, idx) => (
@@ -276,10 +285,13 @@ const Navbar1 = () => {
                     </AccordionItem>
                   </Accordion>
                   <a href="#" className="font-semibold">
-                    Pricing
+                    Insights
                   </a>
                   <a href="#" className="font-semibold">
-                    Blog
+                    Our Story
+                  </a>
+                  <a href="#" className="font-semibold">
+                    Contact
                   </a>
                 </div>
                 <div className="border-t pt-4">
