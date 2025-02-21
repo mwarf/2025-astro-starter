@@ -23,24 +23,47 @@ const authors = await getCollection('authors');
 const postAuthors = authors.filter(author => 
   insight.data.authors.includes(author.slug)
 );
+
+// Get related posts (same category or shared tags)
+const allInsights = await getCollection('insights');
+const relatedPosts = allInsights
+  .filter(post => 
+    post.slug !== insight.slug && 
+    (post.data.category === insight.data.category ||
+    post.data.tags?.some(tag => insight.data.tags?.includes(tag)))
+  )
+  .slice(0, 3);
+
+// Estimate read time (rough calculation)
+const wordsPerMinute = 200;
+const wordCount = insight.body.split(/\s+/).length;
+const readingTime = Math.ceil(wordCount / wordsPerMinute);
 ---
 
 <Layout title={`${insight.data.title} | Insights`}>
+  <!-- Progress Bar -->
+  <div class="fixed top-0 left-0 w-full h-1 z-50">
+    <div id="progress-bar" class="h-full bg-primary w-0 transition-all duration-200"></div>
+  </div>
+
   <article class="container mx-auto px-4 py-16 max-w-4xl">
-    <header class="mb-8">
-      <div class="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+    <!-- Hero Section -->
+    <header class="mb-12">
+      <div class="flex items-center gap-2 text-sm text-muted-foreground mb-6">
         <time datetime={insight.data.publishDate.toISOString()}>
           {formatDate(insight.data.publishDate)}
         </time>
         <span>·</span>
         <span>{insight.data.category}</span>
+        <span>·</span>
+        <span>{readingTime} min read</span>
       </div>
       
-      <h1 class="text-4xl font-bold tracking-tight mb-4">
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-6 leading-tight">
         {insight.data.title}
       </h1>
       
-      <p class="text-xl text-muted-foreground mb-6">
+      <p class="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed">
         {insight.data.description}
       </p>
 
@@ -48,44 +71,181 @@ const postAuthors = authors.filter(author =>
         <img
           src={insight.data.featuredImage}
           alt={insight.data.title}
-          class="rounded-lg w-full aspect-video object-cover mb-8"
+          class="rounded-lg w-full aspect-video object-cover mb-8 shadow-lg"
         />
       )}
 
-      <div class="flex flex-wrap gap-4 mb-8">
-        {postAuthors.map(author => (
-          <div class="flex items-center gap-2">
-            {author.data.avatar && (
-              <img
-                src={author.data.avatar}
-                alt={author.data.name}
-                class="w-10 h-10 rounded-full"
-              />
-            )}
-            <div>
-              <p class="font-medium">{author.data.name}</p>
-              <p class="text-sm text-muted-foreground">{author.data.role}</p>
+      <!-- Meta Information Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-6 py-6 border-y">
+        <div class="flex flex-wrap items-center gap-6">
+          {postAuthors.map(author => (
+            <div class="flex items-center gap-3">
+              {author.data.avatar && (
+                <img
+                  src={author.data.avatar}
+                  alt={author.data.name}
+                  class="w-12 h-12 rounded-full border-2 border-muted"
+                />
+              )}
+              <div>
+                <p class="font-medium">{author.data.name}</p>
+                <p class="text-sm text-muted-foreground">{author.data.role}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+        
+        <!-- Share Buttons -->
+        <div class="flex items-center gap-4">
+          <button class="p-2 hover:bg-muted rounded-full transition-colors" title="Share on Twitter">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+          </button>
+          <button class="p-2 hover:bg-muted rounded-full transition-colors" title="Share on LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          </button>
+          <button class="p-2 hover:bg-muted rounded-full transition-colors" title="Copy Link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          </button>
+        </div>
       </div>
     </header>
 
-    <div class="prose prose-lg dark:prose-invert max-w-none">
-      <Content />
+    <!-- Main Content with Table of Contents -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_250px] gap-12">
+      <div class="prose prose-lg dark:prose-invert max-w-none">
+        <Content />
+      </div>
+
+      <!-- Sidebar with TOC -->
+      <aside class="hidden lg:block">
+        <div class="sticky top-24">
+          <h2 class="text-lg font-semibold mb-4">Table of Contents</h2>
+          <nav id="toc" class="space-y-2 text-sm"></nav>
+        </div>
+      </aside>
     </div>
 
+    <!-- Tags -->
     {insight.data.tags && insight.data.tags.length > 0 && (
-      <div class="mt-8 pt-8 border-t">
-        <h2 class="text-lg font-semibold mb-4">Tags</h2>
+      <div class="mt-12 pt-8 border-t">
+        <h2 class="text-lg font-semibold mb-4">Related Topics</h2>
         <div class="flex flex-wrap gap-2">
           {insight.data.tags.map(tag => (
-            <span class="px-3 py-1 bg-muted rounded-full text-sm">
+            <span class="px-4 py-1.5 bg-muted rounded-full text-sm hover:bg-muted/80 transition-colors cursor-pointer">
               {tag}
             </span>
           ))}
         </div>
       </div>
     )}
+
+    <!-- Related Posts -->
+    {relatedPosts.length > 0 && (
+      <div class="mt-12 pt-8 border-t">
+        <h2 class="text-2xl font-semibold mb-6">Related Articles</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {relatedPosts.map(post => (
+            <a href={`/insights/${post.slug}`} class="group">
+              <article class="space-y-3">
+                {post.data.featuredImage && (
+                  <img
+                    src={post.data.featuredImage}
+                    alt={post.data.title}
+                    class="rounded-lg aspect-video object-cover"
+                  />
+                )}
+                <h3 class="font-semibold group-hover:text-primary transition-colors">
+                  {post.data.title}
+                </h3>
+                <p class="text-sm text-muted-foreground line-clamp-2">
+                  {post.data.description}
+                </p>
+              </article>
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
   </article>
+
+  <!-- Back to Top Button -->
+  <button
+    id="back-to-top"
+    class="fixed bottom-8 right-8 p-3 bg-primary text-primary-foreground rounded-full shadow-lg opacity-0 invisible transition-all duration-300"
+    aria-label="Back to top"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+  </button>
 </Layout>
+
+<script>
+  // Progress Bar
+  const progressBar = document.getElementById('progress-bar');
+  window.addEventListener('scroll', () => {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    if (progressBar) progressBar.style.width = scrolled + '%';
+  });
+
+  // Back to Top Button
+  const backToTop = document.getElementById('back-to-top');
+  window.addEventListener('scroll', () => {
+    if (backToTop) {
+      if (window.scrollY > 300) {
+        backToTop.classList.remove('opacity-0', 'invisible');
+        backToTop.classList.add('opacity-100', 'visible');
+      } else {
+        backToTop.classList.add('opacity-0', 'invisible');
+        backToTop.classList.remove('opacity-100', 'visible');
+      }
+    }
+  });
+  backToTop?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Table of Contents
+  const toc = document.getElementById('toc');
+  if (toc) {
+    const headings = document.querySelectorAll('article h2');
+    headings.forEach((heading, index) => {
+      const id = `section-${index}`;
+      heading.id = id;
+      const link = document.createElement('a');
+      link.href = `#${id}`;
+      link.textContent = heading.textContent;
+      link.className = 'block text-muted-foreground hover:text-foreground transition-colors';
+      toc.appendChild(link);
+    });
+  }
+</script>
+
+<style>
+  /* Custom Prose Styles */
+  .prose {
+    --tw-prose-headings: hsl(var(--foreground));
+    --tw-prose-body: hsl(var(--foreground) / 0.9);
+    --tw-prose-bold: hsl(var(--foreground));
+    --tw-prose-links: hsl(var(--primary));
+    --tw-prose-code: hsl(var(--foreground));
+    --tw-prose-quotes: hsl(var(--foreground) / 0.9);
+    --tw-prose-quote-borders: hsl(var(--primary));
+  }
+
+  .prose h2 {
+    @apply scroll-mt-24;
+  }
+
+  .prose pre {
+    @apply rounded-lg shadow-lg;
+  }
+
+  .prose blockquote {
+    @apply not-italic;
+  }
+
+  .prose img {
+    @apply rounded-lg shadow-lg;
+  }
+</style>
