@@ -1,9 +1,24 @@
-# Astro + Tailwind + ShadCN + Framer Motion + React 18 Starter
+# BrainMuffin AI Consulting Website
 
-A comprehensive starter template combining modern web technologies for building fast, interactive websites.
+The official website for BrainMuffin, a leading AI consulting firm specializing in:
+- AI Strategy Development
+- Machine Learning Implementation
+- Data Science Solutions
+- AI-powered Business Transformation
+
+Built with modern web technologies for optimal performance and maintainability.
 
 ## ✨ Features
 
+### Business Features
+- **AI Service Showcase**
+- **Client Success Stories**
+- **Interactive AI Demos**
+- **Expert Team Profiles**
+- **AI Insights Blog**
+- **Contact & Consultation Forms**
+
+### Technical Features
 - **Astro v5.1.2** - Modern static site generator
 - **Tailwind CSS v3.4.17** - Utility-first CSS framework
 - **ShadCN UI** - Beautifully designed components (using Radix UI v1.2.2+)
@@ -56,36 +71,36 @@ pnpm run dev
 - Example components in `src/components`
 - Supports React Server Components
 
-## 📅 Feature Roadmap
+## 📅 Development Roadmap
 
-### Phase 1: Core Functionality
-- [x] Astro + Tailwind integration
-- [x] ShadCN UI components setup
-- [x] Framer Motion integration
-- [x] React 18 support
+### Phase 1: Core Website
+- [x] AI Service Pages
+- [x] Team Profiles
+- [ ] Client Case Studies
 
-### Phase 2: Enhanced Features
-- [ ] Authentication system
-- [ ] API routes example
-- [ ] Blog template
-- [ ] E-commerce template
+### Phase 2: AI Integration
+- [ ] Interactive AI Demos
+- [ ] AI Blog Integration
+- [ ] AI-powered Contact Forms
 
-### Phase 3: Optimization
-- [ ] Image optimization
-- [ ] Performance benchmarks
-- [ ] Accessibility improvements
+### Phase 3: Advanced Features
+- [ ] AI Chatbot Integration
+- [ ] Predictive Analytics Dashboard
+- [ ] AI Resource Library
 
-## 🎨 Usage Examples
+## 🎨 Component Usage
 
-### Using ShadCN Components
+### AI Service Card
 ```tsx
-import { Button } from '@/components/ui/button';
+import { ServiceCard } from '@/components/ui/service-card';
 
-export default function MyComponent() {
+export default function AIServices() {
   return (
-    <Button variant="outline">
-      Click Me
-    </Button>
+    <ServiceCard 
+      title="AI Strategy"
+      description="Transform your business with AI"
+      icon="brain"
+    />
   );
 }
 ```
@@ -121,6 +136,12 @@ Please follow our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## 📚 Documentation Links
 
+### AI Resources
+- [AI Ethics Guidelines](https://ai-ethics.org)
+- [Machine Learning Best Practices](https://ml-best-practices.com)
+- [AI Implementation Frameworks](https://ai-frameworks.io)
+
+### Technical Documentation
 - [Astro Documentation](https://docs.astro.build)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [ShadCN UI Documentation](https://ui.shadcn.com/docs)
