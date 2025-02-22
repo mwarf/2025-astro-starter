@@ -1,6 +1,7 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import { formatDate } from '../../lib/utils';
 
 export async function getStaticPaths() {
   const caseStudies = await getCollection('case-studies');
@@ -27,6 +28,34 @@ const relatedStudies = allCaseStudies
         s.data.projectType === study.data.projectType)
   )
   .slice(0, 3); // Limit to 3 related studies
+
+// Get related insights based on shared tags
+const allInsights = await getCollection('insights');
+
+// Debug logging
+console.log('Case study tags:', study.data.tags);
+
+const relatedInsights = study.data.tags && study.data.tags.length > 0
+  ? allInsights
+      .filter(insight => {
+        // Debug logging for each insight being filtered
+        console.log('Filtering insight:', insight.data);
+        const hasMatchingTag = insight.data.tags?.some(tag => 
+          study.data.tags?.includes(tag)
+        );
+        if (hasMatchingTag) {
+          console.log('Found matching tags between case study and insight:', 
+            insight.data.tags?.filter(tag => study.data.tags?.includes(tag))
+          );
+        }
+        return hasMatchingTag;
+      })
+      .slice(0, 3)
+  : [];
+
+// Debug logging
+console.log('All insights:', allInsights);
+console.log('Sorted insights:', relatedInsights);
 ---
 
 <Layout title={`${study.data.title} | Portfolio Case Study`}>
@@ -89,35 +118,80 @@ const relatedStudies = allCaseStudies
           <Content />
         </article>
 
-        <!-- Related Case Studies -->
-        {relatedStudies.length > 0 && (
-          <section class="relative">
-            <div class="absolute inset-0 bg-gradient-to-b from-background to-muted/20" />
-            <div class="relative">
-              <h2 class="text-3xl font-semibold mb-8">Related Case Studies</h2>
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Related Content -->
+        <div class="space-y-16">
+          <!-- Related Case Studies -->
+          {relatedStudies.length > 0 && (
+            <div class="mt-12 pt-8 border-t">
+              <h2 class="text-2xl font-semibold mb-6">Related Case Studies</h2>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {relatedStudies.map((related: CollectionEntry<'case-studies'>) => (
-                  <a
-                    href={`/portfolio/${related.slug}`}
-                    class="group block bg-card hover:bg-accent transition-all duration-200 p-6 rounded-xl shadow-sm hover:shadow-md"
-                  >
-                    <h3 class="font-medium text-lg mb-3 group-hover:text-primary transition-colors">
-                      {related.data.title}
-                    </h3>
-                    <p class="text-sm text-muted-foreground mb-4 line-clamp-2">
-                      {related.data.summary}
-                    </p>
-                    <div class="flex items-center gap-3 text-sm">
-                      <span class="text-primary">{related.data.industry}</span>
-                      <span class="w-1 h-1 rounded-full bg-muted-foreground" />
-                      <span>{related.data.projectType}</span>
-                    </div>
+                  <a href={`/portfolio/${related.slug}`} class="group">
+                    <article class="space-y-3">
+                      {related.data.featuredImage && (
+                        <img
+                          src={related.data.featuredImage}
+                          alt={related.data.title}
+                          class="rounded-lg aspect-video object-cover"
+                        />
+                      )}
+                      <h3 class="font-semibold group-hover:text-primary transition-colors">
+                        {related.data.title}
+                      </h3>
+                      <p class="text-sm text-muted-foreground line-clamp-2">
+                        {related.data.summary}
+                      </p>
+                      <div class="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span class="text-primary">{related.data.industry}</span>
+                        <span>•</span>
+                        <span>{related.data.projectType}</span>
+                      </div>
+                    </article>
                   </a>
                 ))}
               </div>
             </div>
-          </section>
-        )}
+          )}
+
+          <!-- Related Insights -->
+          {relatedInsights.length > 0 && (
+            <section>
+              <h2 class="text-3xl font-semibold mb-8">Related Insights</h2>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {relatedInsights.map(insight => (
+                  <a href={`/insights/${insight.slug}`} class="group">
+                    <article class="space-y-3">
+                      {insight.data.featuredImage && (
+                        <img
+                          src={insight.data.featuredImage}
+                          alt={insight.data.title}
+                          class="rounded-lg aspect-video object-cover"
+                        />
+                      )}
+                      <h3 class="font-semibold group-hover:text-primary transition-colors">
+                        {insight.data.title}
+                      </h3>
+                      <p class="text-sm text-muted-foreground line-clamp-2">
+                        {insight.data.description}
+                      </p>
+                      <div class="flex items-center gap-2 text-sm text-muted-foreground">
+                        <time datetime={insight.data.publishDate.toISOString()}>
+                          {formatDate(insight.data.publishDate)}
+                        </time>
+                        {insight.data.category && (
+                          <>
+                            <span>•</span>
+                            <span class="capitalize">{insight.data.category}</span>
+                          </>
+                        )}
+                      </div>
+                    </article>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
       </div>
     </div>
   </main>

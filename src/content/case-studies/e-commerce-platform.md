@@ -5,6 +5,7 @@ projectType: "Web Development"
 date: 2025-01-15
 client: "Fashion Forward"
 summary: "Complete redesign and modernization of a legacy e-commerce platform, resulting in 40% increase in conversion rates"
+featuredImage: "/images/insights/digital-transformation.jpg"
 featured: true
 tags: ["e-commerce", "react", "typescript", "aws"]
 ---

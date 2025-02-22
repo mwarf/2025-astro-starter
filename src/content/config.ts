@@ -12,6 +12,7 @@ const caseStudies = defineCollection({
     date: z.date(),
     client: z.string(),
     summary: z.string(),
+    featuredImage: z.string().optional(),
     featured: z.boolean().default(false),
     tags: z.array(z.string()).optional(),
   }),
