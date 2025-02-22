@@ -30,70 +30,121 @@ const relatedStudies = allCaseStudies
 ---
 
 <Layout title={`${study.data.title} | Portfolio Case Study`}>
-  <main class="container mx-auto px-4 py-8">
-    <div class="max-w-4xl mx-auto">
-      <!-- Header -->
-      <header class="mb-8">
-        <h1 class="text-4xl font-bold mb-4">{study.data.title}</h1>
-        <div class="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
-          <div>
-            <span class="font-medium">Client:</span> {study.data.client}
-          </div>
-          <div>
-            <span class="font-medium">Industry:</span> {study.data.industry}
-          </div>
-          <div>
-            <span class="font-medium">Type:</span> {study.data.projectType}
-          </div>
-          <div>
-            <span class="font-medium">Date:</span>{' '}
-            {study.data.date.toLocaleDateString()}
+  <!-- Progress Bar -->
+  <div class="fixed top-0 left-0 w-full h-1 bg-muted z-50">
+    <div id="progress-bar" class="h-full bg-primary transition-all duration-200" style="width: 0%"></div>
+  </div>
+
+  <main>
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-b from-primary/5 to-transparent">
+      <div class="container mx-auto px-4 py-16">
+        <div class="max-w-4xl mx-auto">
+          <div class="space-y-4">
+            <!-- Tags -->
+            {study.data.tags && (
+              <div class="flex flex-wrap gap-2">
+                {study.data.tags.map((tag: string) => (
+                  <span class="px-3 py-1 bg-primary/10 rounded-full text-sm font-medium text-primary">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+            
+            <!-- Title -->
+            <h1 class="text-5xl font-bold tracking-tight">{study.data.title}</h1>
+            
+            <!-- Summary -->
+            <p class="text-xl text-muted-foreground">{study.data.summary}</p>
+            
+            <!-- Metadata Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8">
+              <div class="space-y-2">
+                <div class="text-sm text-muted-foreground">Client</div>
+                <div class="font-medium">{study.data.client}</div>
+              </div>
+              <div class="space-y-2">
+                <div class="text-sm text-muted-foreground">Industry</div>
+                <div class="font-medium">{study.data.industry}</div>
+              </div>
+              <div class="space-y-2">
+                <div class="text-sm text-muted-foreground">Project Type</div>
+                <div class="font-medium">{study.data.projectType}</div>
+              </div>
+              <div class="space-y-2">
+                <div class="text-sm text-muted-foreground">Date</div>
+                <div class="font-medium">{study.data.date.toLocaleDateString()}</div>
+              </div>
+            </div>
           </div>
         </div>
-        {
-          study.data.tags && (
-            <div class="flex flex-wrap gap-2">
-              {study.data.tags.map((tag: string) => (
-                <span class="px-3 py-1 bg-primary/10 rounded-full text-sm">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )
-        }
-      </header>
+      </div>
+    </div>
 
-      <!-- Content -->
-      <article class="prose dark:prose-invert max-w-none mb-12">
-        <Content />
-      </article>
+    <!-- Content -->
+    <div class="container mx-auto px-4 py-12">
+      <div class="max-w-4xl mx-auto">
+        <article class="prose dark:prose-invert max-w-none mb-16">
+          <Content />
+        </article>
 
-      <!-- Related Case Studies -->
-      {
-        relatedStudies.length > 0 && (
-          <section class="border-t pt-8">
-            <h2 class="text-2xl font-semibold mb-6">Related Case Studies</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {relatedStudies.map((related: CollectionEntry<'case-studies'>) => (
-                <a
-                  href={`/portfolio/${related.slug}`}
-                  class="block bg-card hover:bg-accent transition-colors p-6 rounded-lg"
-                >
-                  <h3 class="font-medium mb-2">{related.data.title}</h3>
-                  <p class="text-sm text-muted-foreground mb-4">
-                    {related.data.summary}
-                  </p>
-                  <div class="text-sm">
-                    <span class="text-primary">{related.data.industry}</span>
-                    {' • '}
-                    <span>{related.data.projectType}</span>
-                  </div>
-                </a>
-              ))}
+        <!-- Related Case Studies -->
+        {relatedStudies.length > 0 && (
+          <section class="relative">
+            <div class="absolute inset-0 bg-gradient-to-b from-background to-muted/20" />
+            <div class="relative">
+              <h2 class="text-3xl font-semibold mb-8">Related Case Studies</h2>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {relatedStudies.map((related: CollectionEntry<'case-studies'>) => (
+                  <a
+                    href={`/portfolio/${related.slug}`}
+                    class="group block bg-card hover:bg-accent transition-all duration-200 p-6 rounded-xl shadow-sm hover:shadow-md"
+                  >
+                    <h3 class="font-medium text-lg mb-3 group-hover:text-primary transition-colors">
+                      {related.data.title}
+                    </h3>
+                    <p class="text-sm text-muted-foreground mb-4 line-clamp-2">
+                      {related.data.summary}
+                    </p>
+                    <div class="flex items-center gap-3 text-sm">
+                      <span class="text-primary">{related.data.industry}</span>
+                      <span class="w-1 h-1 rounded-full bg-muted-foreground" />
+                      <span>{related.data.projectType}</span>
+                    </div>
+                  </a>
+                ))}
+              </div>
             </div>
           </section>
-        )
-      }
+        )}
+      </div>
     </div>
   </main>
 </Layout>
+
+<script>
+  // Progress bar functionality
+  const progressBar = document.getElementById('progress-bar');
+  const content = document.querySelector('article');
+
+  if (progressBar && content) {
+    window.addEventListener('scroll', () => {
+      const contentBox = content.getBoundingClientRect();
+      const contentStart = contentBox.top + window.scrollY;
+      const contentEnd = contentBox.bottom + window.scrollY;
+      const windowHeight = window.innerHeight;
+      const scrollPosition = window.scrollY + windowHeight;
+
+      if (scrollPosition > contentStart) {
+        const progress = Math.min(
+          ((scrollPosition - contentStart) / (contentEnd - contentStart)) * 100,
+          100
+        );
+        progressBar.style.width = `${progress}%`;
+      } else {
+        progressBar.style.width = '0%';
+      }
+    });
+  }
+</script>

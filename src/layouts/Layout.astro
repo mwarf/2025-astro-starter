@@ -1,6 +1,7 @@
 ---
 // src/layouts/Layout.astro
 import '../styles/global.css'; // This works for global styles in Astro
+import NavBar1 from '../components/ui/NavBar1';
 ---
 
 <html lang="en">
@@ -28,6 +29,7 @@ import '../styles/global.css'; // This works for global styles in Astro
     <title>BrainMuffin Astro Project</title>
   </head>
   <body class="font-sans bg-background text-foreground">
+    <NavBar1 client:load/>
     <slot />
   </body>
 </html>

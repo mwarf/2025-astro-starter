@@ -1,6 +1,7 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import CaseStudyCard from '@/components/CaseStudyCard';
 
 type CaseStudy = CollectionEntry<'case-studies'>;
 const caseStudies = await getCollection('case-studies');
@@ -27,90 +28,74 @@ const byProjectType = caseStudies.reduce((acc: Record<string, CaseStudy[]>, stud
 ---
 
 <Layout title="Portfolio | Case Studies">
-  <main class="container mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold mb-8">Our Portfolio</h1>
+  <main class="container mx-auto px-4 py-16">
+    <div class="max-w-2xl">
+      <h1 class="text-4xl font-bold tracking-tight mb-4">Our Portfolio</h1>
+      <p class="text-xl text-muted-foreground">Explore our latest work and success stories across various industries and project types.</p>
+    </div>
 
     <!-- Featured Case Studies -->
-    <section class="mb-12">
-      <h2 class="text-2xl font-semibold mb-6">Featured Work</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {
-          caseStudies
-            .filter((study: CaseStudy) => study.data.featured)
-            .map((study: CaseStudy) => (
-              <a
-                href={`/portfolio/${study.slug}`}
-                class="block bg-card hover:bg-accent transition-colors p-6 rounded-lg shadow-lg"
-              >
-                <h3 class="text-xl font-semibold mb-2">{study.data.title}</h3>
-                <p class="text-sm text-muted-foreground mb-4">
-                  {study.data.client}
-                </p>
-                <p class="text-sm mb-4">{study.data.summary}</p>
-                <div class="flex flex-wrap gap-2">
-                  {study.data.tags?.map((tag: string) => (
-                    <span class="px-2 py-1 bg-primary/10 rounded-full text-xs">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </a>
-            ))
-        }
+    <section class="mt-16 mb-24">
+      <h2 class="text-3xl font-semibold mb-8 tracking-tight">Featured Work</h2>
+      <p class="text-lg text-muted-foreground mb-8">Showcasing our most impactful projects and transformative solutions.</p>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {caseStudies
+          .filter((study: CaseStudy) => study.data.featured)
+          .map((study: CaseStudy) => (
+            <CaseStudyCard study={study} client:load />
+          ))}
       </div>
     </section>
 
-    <!-- By Industry -->
-    <section class="mb-12">
-      <h2 class="text-2xl font-semibold mb-6">By Industry</h2>
-      <div class="space-y-8">
-        {
-          (Object.entries(byIndustry) as [string, CaseStudy[]][]).map(([industry, studies]) => (
-            <div>
-              <h3 class="text-xl font-medium mb-4">{industry}</h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {studies.map((study: CaseStudy) => (
-                  <a
-                    href={`/portfolio/${study.slug}`}
-                    class="block bg-card hover:bg-accent transition-colors p-4 rounded-lg"
-                  >
-                    <h4 class="font-medium mb-2">{study.data.title}</h4>
-                    <p class="text-sm text-muted-foreground">
-                      {study.data.summary}
-                    </p>
-                  </a>
-                ))}
-              </div>
+    <!-- Case Studies by Industry -->
+    <section class="mt-24 mb-24">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
+        <div>
+          <h2 class="text-2xl font-semibold tracking-tight">By Industry</h2>
+          <p class="text-lg text-muted-foreground mt-2">Browse our work across different sectors</p>
+        </div>
+        <div class="mt-4 md:mt-0">
+          <p class="text-sm text-muted-foreground">{Object.keys(byIndustry).length} Industries</p>
+        </div>
+      </div>
+
+      <div class="space-y-16">
+        {Object.entries(byIndustry).map(([industry, studies]) => (
+          <div class="border-t border-border/50 pt-8">
+            <h3 class="text-xl font-semibold mb-6">{industry}</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {studies.map((study: CaseStudy) => (
+                <CaseStudyCard study={study} client:load />
+              ))}
             </div>
-          ))
-        }
+          </div>
+        ))}
       </div>
     </section>
 
-    <!-- By Project Type -->
-    <section class="mb-12">
-      <h2 class="text-2xl font-semibold mb-6">By Project Type</h2>
-      <div class="space-y-8">
-        {
-          (Object.entries(byProjectType) as [string, CaseStudy[]][]).map(([type, studies]) => (
-            <div>
-              <h3 class="text-xl font-medium mb-4">{type}</h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {studies.map((study: CaseStudy) => (
-                  <a
-                    href={`/portfolio/${study.slug}`}
-                    class="block bg-card hover:bg-accent transition-colors p-4 rounded-lg"
-                  >
-                    <h4 class="font-medium mb-2">{study.data.title}</h4>
-                    <p class="text-sm text-muted-foreground">
-                      {study.data.summary}
-                    </p>
-                  </a>
-                ))}
-              </div>
+    <!-- Case Studies by Project Type -->
+    <section class="mt-24">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
+        <div>
+          <h2 class="text-2xl font-semibold tracking-tight">By Project Type</h2>
+          <p class="text-lg text-muted-foreground mt-2">Explore our expertise across different project types</p>
+        </div>
+        <div class="mt-4 md:mt-0">
+          <p class="text-sm text-muted-foreground">{Object.keys(byProjectType).length} Project Types</p>
+        </div>
+      </div>
+
+      <div class="space-y-16">
+        {Object.entries(byProjectType).map(([type, studies]) => (
+          <div class="border-t border-border/50 pt-8">
+            <h3 class="text-xl font-semibold mb-6">{type}</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {studies.map((study: CaseStudy) => (
+                <CaseStudyCard study={study} client:load />
+              ))}
             </div>
-          ))
-        }
+          </div>
+        ))}
       </div>
     </section>
   </main>

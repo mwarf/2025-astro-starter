@@ -81,21 +81,22 @@ const subMenuItemsTwo = [
 
 const Navbar1 = () => {
   return (
-    <section className="py-4">
-      <div className="container">
-        <nav className="hidden justify-between lg:flex">
+    <section className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <nav className="hidden h-16 justify-between lg:flex">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
             
-              <img src="https://placehold.co/32" className="w-8" alt="logo" />
-              <a href="#"
-              ><span className="text-xl font-bold">BrainMuffin</span></a>
+              <img src="https://placehold.co/32" className="h-8 w-8" alt="BrainMuffin logo" />
+              <a href="/" className="flex items-center gap-2 transition-colors hover:text-foreground/80">
+                <span className="text-xl font-bold">BrainMuffin</span>
+              </a>
             </div>
             <div className="flex items-center">
               
               <NavigationMenu>
                 <NavigationMenuList>
-                  <NavigationMenuItem className="text-muted-foreground">
+                  <NavigationMenuItem>
                     <NavigationMenuTrigger>
                       <span>Services</span>
                     </NavigationMenuTrigger>
@@ -115,7 +116,7 @@ const Navbar1 = () => {
                                   <div className="text-sm font-semibold">
                                     {item.title}
                                   </div>
-                                  <p className="text-sm leading-snug text-muted-foreground">
+                                  <p className="text-sm leading-snug text-foreground/60">
                                     {item.description}
                                   </p>
                                 </div>
@@ -126,7 +127,7 @@ const Navbar1 = () => {
                       </ul>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
-                  <NavigationMenuItem className="text-muted-foreground">
+                  <NavigationMenuItem>
                     <NavigationMenuTrigger>Work</NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <ul className="w-80 p-3">
@@ -144,7 +145,7 @@ const Navbar1 = () => {
                                   <div className="text-sm font-semibold">
                                     {item.title}
                                   </div>
-                                  <p className="text-sm leading-snug text-muted-foreground">
+                                  <p className="text-sm leading-snug text-foreground/60">
                                     {item.description}
                                   </p>
                                 </div>
@@ -160,7 +161,7 @@ const Navbar1 = () => {
 
               <a
                 className={cn(
-                  "text-muted-foreground",
+                  "text-foreground/60 transition-colors hover:text-foreground/80",
                   navigationMenuTriggerStyle,
                   buttonVariants({
                     variant: "ghost",
@@ -172,19 +173,19 @@ const Navbar1 = () => {
               </a>
               <a
                 className={cn(
-                  "text-muted-foreground",
+                  "text-foreground/60 transition-colors hover:text-foreground/80",
                   navigationMenuTriggerStyle,
                   buttonVariants({
                     variant: "ghost",
                   }),
                 )}
-                href="#"
+                href="/insights"
               >
                 Insights
               </a>
               <a
                 className={cn(
-                  "text-muted-foreground",
+                  "text-foreground/60 transition-colors hover:text-foreground/80",
                   navigationMenuTriggerStyle,
                   buttonVariants({
                     variant: "ghost",
@@ -196,7 +197,7 @@ const Navbar1 = () => {
               </a>
               <a
                 className={cn(
-                  "text-muted-foreground",
+                  "text-foreground/60 transition-colors hover:text-foreground/80",
                   navigationMenuTriggerStyle,
                   buttonVariants({
                     variant: "ghost",
@@ -209,14 +210,16 @@ const Navbar1 = () => {
             </div>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline">Log in</Button>
-            <Button>Sign up</Button>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" className="transition-colors hover:text-foreground/80">Log in</Button>
+              <Button className="transition-colors hover:bg-primary/90">Sign up</Button>
+            </div>
           </div>
         </nav>
-        <div className="block lg:hidden">
+        <div className="block border-b py-4 lg:hidden">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <img src="https://placehold.co/32" className="w-8" alt="logo" />
+              <img src="https://placehold.co/32" className="h-8 w-8" alt="BrainMuffin logo" />
               <span className="text-xl font-bold">BrainMuffin</span>
             </div>
             <Sheet>
@@ -231,15 +234,15 @@ const Navbar1 = () => {
                     <div className="flex items-center gap-2">
                       <img
                         src="https://placehold.co/32"
-                        className="w-8"
-                        alt="logo"
+                        className="h-8 w-8"
+                        alt="BrainMuffin logo"
                       />
                       <span className="text-xl font-bold">BrainMuffin</span>
                     </div>
                   </SheetTitle>
                 </SheetHeader>
                 <div className="mb-8 mt-8 flex flex-col gap-4">
-                  <a href="#" className="font-semibold">
+                  <a href="/" className="font-semibold transition-colors hover:text-foreground/80">
                     Home
                   </a>
                   <Accordion type="single" collapsible className="w-full">
@@ -261,7 +264,7 @@ const Navbar1 = () => {
                               <div className="text-sm font-semibold">
                                 {item.title}
                               </div>
-                              <p className="text-sm leading-snug text-muted-foreground">
+                              <p className="text-sm leading-snug text-foreground/60">
                                 {item.description}
                               </p>
                             </div>
@@ -287,7 +290,7 @@ const Navbar1 = () => {
                               <div className="text-sm font-semibold">
                                 {item.title}
                               </div>
-                              <p className="text-sm leading-snug text-muted-foreground">
+                              <p className="text-sm leading-snug text-foreground/60">
                                 {item.description}
                               </p>
                             </div>
@@ -296,16 +299,16 @@ const Navbar1 = () => {
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
-                  <a href="/portfolio" className="font-semibold">
+                  <a href="/portfolio" className="font-semibold transition-colors hover:text-foreground/80">
                     Portfolio
                   </a>
-                  <a href="#" className="font-semibold">
+                  <a href="/insights" className="font-semibold transition-colors hover:text-foreground/80">
                     Insights
                   </a>
-                  <a href="#" className="font-semibold">
+                  <a href="#" className="font-semibold transition-colors hover:text-foreground/80">
                     Our Story
                   </a>
-                  <a href="#" className="font-semibold">
+                  <a href="#" className="font-semibold transition-colors hover:text-foreground/80">
                     Contact
                   </a>
                 </div>
@@ -316,7 +319,7 @@ const Navbar1 = () => {
                         buttonVariants({
                           variant: "ghost",
                         }),
-                        "justify-start text-muted-foreground",
+                        "justify-start text-foreground/60 transition-colors hover:text-foreground/80",
                       )}
                       href="#"
                     >
@@ -327,7 +330,7 @@ const Navbar1 = () => {
                         buttonVariants({
                           variant: "ghost",
                         }),
-                        "justify-start text-muted-foreground",
+                        "justify-start text-foreground/60 transition-colors hover:text-foreground/80",
                       )}
                       href="#"
                     >
@@ -338,7 +341,7 @@ const Navbar1 = () => {
                         buttonVariants({
                           variant: "ghost",
                         }),
-                        "justify-start text-muted-foreground",
+                        "justify-start text-foreground/60 transition-colors hover:text-foreground/80",
                       )}
                       href="#"
                     >
@@ -349,7 +352,7 @@ const Navbar1 = () => {
                         buttonVariants({
                           variant: "ghost",
                         }),
-                        "justify-start text-muted-foreground",
+                        "justify-start text-foreground/60 transition-colors hover:text-foreground/80",
                       )}
                       href="#"
                     >
@@ -360,7 +363,7 @@ const Navbar1 = () => {
                         buttonVariants({
                           variant: "ghost",
                         }),
-                        "justify-start text-muted-foreground",
+                        "justify-start text-foreground/60 transition-colors hover:text-foreground/80",
                       )}
                       href="#"
                     >
@@ -371,7 +374,7 @@ const Navbar1 = () => {
                         buttonVariants({
                           variant: "ghost",
                         }),
-                        "justify-start text-muted-foreground",
+                        "justify-start text-foreground/60 transition-colors hover:text-foreground/80",
                       )}
                       href="#"
                     >
@@ -379,8 +382,8 @@ const Navbar1 = () => {
                     </a>
                   </div>
                   <div className="mt-2 flex flex-col gap-3">
-                    <Button variant="outline">Log in</Button>
-                    <Button>Sign up</Button>
+                    <Button variant="outline" className="w-full transition-colors hover:text-foreground/80">Log in</Button>
+                    <Button className="w-full transition-colors hover:bg-primary/90">Sign up</Button>
                   </div>
                 </div>
               </SheetContent>
