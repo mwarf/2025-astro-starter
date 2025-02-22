@@ -3,7 +3,7 @@ title: "Digital Transformation Trends in 2025"
 publishDate: 2025-02-21
 authors: ["john-doe"]
 category: "tech"
-featuredImage: "/favicon.svg"
+featuredImage: "/images/insights/digital-transformation.jpg"
 description: "Explore the key digital transformation trends shaping the technology landscape in 2025, from AI integration to sustainable tech practices."
 featured: true
 draft: false

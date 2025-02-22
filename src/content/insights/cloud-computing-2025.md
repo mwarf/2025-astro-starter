@@ -3,9 +3,9 @@ title: "Cloud Computing Evolution in 2025"
 publishDate: 2025-02-21
 authors: ["john-doe"]
 category: "tech"
-featuredImage: "/favicon.svg"
+featuredImage: "/images/insights/digital-transformation.jpg"
 description: "Discover how cloud computing is evolving in 2025, from hybrid cloud solutions to serverless architectures and AI-powered cloud services."
-featured: false
+featured: true
 draft: false
 tags: ["cloud computing", "hybrid cloud", "serverless", "cloud architecture"]
 ---

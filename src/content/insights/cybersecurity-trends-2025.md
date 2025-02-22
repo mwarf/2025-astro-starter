@@ -3,9 +3,9 @@ title: "Cybersecurity Landscape: Emerging Threats and Solutions"
 publishDate: 2025-02-21
 authors: ["john-doe"]
 category: "tech"
-featuredImage: "/favicon.svg"
+featuredImage: "/images/insights/digital-transformation.jpg"
 description: "Explore the evolving cybersecurity landscape in 2025, including emerging threats, advanced defense mechanisms, and strategic security approaches."
-featured: false
+featured: true
 draft: false
 tags: ["cybersecurity", "threat detection", "security", "zero trust"]
 ---
